@@ -1,0 +1,100 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 600,
+  "height": 400,
+  "title": "Planned vs Unplanned Fire Incidents by State (2016-2021)",
+  "data": {
+    "url": "data/Fire_For16-21_Attributes.csv"
+  },
+  "params": [
+    {
+      "name": "state_selection",
+      "select": {
+        "type": "point",
+        "fields": ["FireCategory"]
+      },
+      "bind": "legend"
+    },
+    {
+      "name": "year_filter",
+      "value": "All Years",
+      "bind": {
+        "input": "select",
+        "options": ["All Years", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"],
+        "name": "Select Year: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "datum.STATE != '' && datum.STATE != null && datum.STATE != ' '"
+    },
+    {
+      "fold": ["FIRE_1617", "FIRE_1718", "FIRE_1819", "FIRE_1920", "FIRE_2021"],
+      "as": ["Year", "FireType"]
+    },
+    {
+      "calculate": "datum.Year == 'FIRE_1617' ? '2016-17' : datum.Year == 'FIRE_1718' ? '2017-18' : datum.Year == 'FIRE_1819' ? '2018-19' : datum.Year == 'FIRE_1920' ? '2019-20' : '2020-21'",
+      "as": "YearLabel"
+    },
+    {
+      "filter": "datum.FireType == 'U' || datum.FireType == 'P'"
+    },
+    {
+      "calculate": "datum.FireType == 'U' ? 'Unplanned' : 'Planned'",
+      "as": "FireCategory"
+    },
+    {
+      "filter": "year_filter == 'All Years' || datum.YearLabel == year_filter"
+    },
+    {
+      "aggregate": [{ "op": "count", "as": "FireCount" }],
+      "groupby": ["STATE", "FireCategory"]
+    }
+  ],
+  "mark": {
+    "type": "bar"
+  },
+  "encoding": {
+    "x": {
+      "field": "STATE",
+      "type": "nominal",
+      "title": "State/Territory",
+      "axis": {
+        "labelAngle": -45
+      }
+    },
+    "y": {
+      "field": "FireCount",
+      "type": "quantitative",
+      "title": "Number of Fire Incidents",
+      "stack": true
+    },
+    "color": {
+      "field": "FireCategory",
+      "type": "nominal",
+      "title": "Fire Type",
+      "scale": {
+        "domain": ["Planned", "Unplanned"],
+        "range": ["#2ca02c", "#d62728"]
+      }
+    },
+    "opacity": {
+            "condition": {
+                "param": "state_selection",
+                "value": 0.8
+            },
+            "value": 0.1
+        },
+    "tooltip": [
+      { "field": "STATE", "type": "nominal", "title": "State/Territory" },
+      { "field": "FireCategory", "type": "nominal", "title": "Fire Type" },
+      {
+        "field": "FireCount",
+        "type": "quantitative",
+        "title": "Number of Incidents",
+        "format": ","
+      }
+    ]
+  }
+}

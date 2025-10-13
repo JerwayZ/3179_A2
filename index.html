@@ -15,8 +15,8 @@
   
 <div id="cum_fire_dmg"></div>
 <div id="fires_state"></div>
-<div id="rainfall"></div>
 <div id="fire_choropleth"></div>
+<div id="planned_fires"></div>
 
 <script type="text/javascript">
 
@@ -34,19 +34,18 @@
 </script>
 <script type="text/javascript">
 
-  var rainfall = "rainfall.vg.json";
-  vegaEmbed('#rainfall', rainfall).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
-</script>
-<script type="text/javascript">
-
   var fire_choropleth = "fire_choropleth.vg.json";
   vegaEmbed('#fire_choropleth', fire_choropleth).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 </script>
+<script type="text/javascript">
 
+  var planned_fires = "planned_fires.vg.json";
+  vegaEmbed('#planned_fires', planned_fires).then(function(result) {
+    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+  }).catch(console.error);
+</script>
 
 
 </body>
