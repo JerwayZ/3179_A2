@@ -1,0 +1,92 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 400,
+  "height": 400,
+  "title": "Number of fires by state",
+  "data": {
+    "url": "data/Fire_For16-21_Attributes.csv"
+  },
+  "params": [
+    {
+      "name": "state_selection",
+      "select": {
+        "type": "point",
+        "fields": ["STATE"]
+      },
+      "bind": "legend"
+    }
+  ],
+  "transform": [
+    {
+      "filter": "datum.STATE != '' &&  datum.STATE != null"
+    },
+    {
+      "filter": "datum.FOR_CATEGO == 'Native forest'"
+    },
+    {
+      "fold": ["FIRE_1617", "FIRE_1718", "FIRE_1819", "FIRE_1920", "FIRE_2021"],
+      "as": ["Year", "FireCount"]
+    },
+    {
+      "calculate": "datum.Year == 'FIRE_1617' ? '2016-17' : datum.Year == 'FIRE_1718' ? '2017-18' : datum.Year == 'FIRE_1819' ? '2018-19' : datum.Year == 'FIRE_1920' ? '2019-20' : '2020-21'",
+      "as": "YearLabel"
+    },
+    {
+      "calculate": "datum.Year == 'FIRE_1617' ? 2017 : datum.Year == 'FIRE_1718' ? 2018 : datum.Year == 'FIRE_1819' ? 2019 : datum.Year == 'FIRE_1920' ? 2020 : 2021",
+      "as": "YearNum"
+    },
+    {
+      "calculate": "datum.FireCount == 'U' || datum.FireCount == 'P' ? 1 : 0",
+      "as": "HasFire"
+    },
+    {
+      "filter": "datum.HasFire == 1"
+    },
+    {
+      "aggregate": [{ "op": "sum", "field": "HasFire", "as": "FireIncidents" }],
+      "groupby": ["STATE", "YearLabel", "YearNum"]
+    }
+  ],
+  "mark": {
+    "type": "bar"
+  },
+  "encoding": {
+    "x": {
+      "field": "YearLabel",
+      "type": "nominal",
+      "title": "Fire Season"
+    },
+    "xOffset": { 
+        "field": "STATE"
+    },
+    "y": {
+      "field": "FireIncidents",
+      "type": "quantitative",
+      "title": "Number of Fires"
+    },
+    "color": {
+      "field": "STATE",
+      "type": "nominal",
+      "title": "State/Territory",
+      "scale": {
+        "scheme": "category20"
+      }
+    },
+    "opacity": {
+      "condition": {
+        "param": "state_selection",
+        "value": 0.8
+      },
+      "value": 0.1
+    },
+    "tooltip": [
+      { "field": "STATE", "type": "nominal", "title": "State" },
+      { "field": "YearLabel", "type": "nominal", "title": "Fire Season" },
+      {
+        "field": "FireIncidents",
+        "type": "quantitative",
+        "title": "Fire Incidents"
+      }
+    ]
+  }
+}
