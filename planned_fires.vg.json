@@ -2,18 +2,19 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 600,
   "height": 400,
-  "title": "Planned vs Unplanned Fire Incidents by State (2016-2021)",
+  "title": "Planned vs Unplanned Fire Incidents Distribution",
   "data": {
     "url": "data/Fire_For16-21_Attributes.csv"
   },
   "params": [
     {
-      "name": "state_selection",
-      "select": {
-        "type": "point",
-        "fields": ["FireCategory"]
-      },
-      "bind": "legend"
+      "name": "state_filter",
+      "value": "All States",
+      "bind": {
+        "input": "select",
+        "options": ["All States", "NSW", "Vic", "Qld", "WA", "SA", "Tas", "NT", "ACT"],
+        "name": "Select State: "
+      }
     },
     {
       "name": "year_filter",
@@ -48,27 +49,23 @@
       "filter": "year_filter == 'All Years' || datum.YearLabel == year_filter"
     },
     {
+      "filter": "state_filter == 'All States' || datum.STATE == state_filter"
+    },
+    {
       "aggregate": [{ "op": "count", "as": "FireCount" }],
-      "groupby": ["STATE", "FireCategory"]
+      "groupby": ["FireCategory"]
     }
   ],
   "mark": {
-    "type": "bar"
+    "type": "arc",
+    "innerRadius": 0,
+    "outerRadius": 150
   },
   "encoding": {
-    "x": {
-      "field": "STATE",
-      "type": "nominal",
-      "title": "State/Territory",
-      "axis": {
-        "labelAngle": -45
-      }
-    },
-    "y": {
+    "theta": {
       "field": "FireCount",
       "type": "quantitative",
-      "title": "Number of Fire Incidents",
-      "stack": true
+      "title": "Number of Fire Incidents"
     },
     "color": {
       "field": "FireCategory",
@@ -76,18 +73,10 @@
       "title": "Fire Type",
       "scale": {
         "domain": ["Planned", "Unplanned"],
-        "range": ["#2ca02c", "#d62728"]
+        "range": ["#FFC20A", "#0C7BDC"]
       }
     },
-    "opacity": {
-            "condition": {
-                "param": "state_selection",
-                "value": 0.8
-            },
-            "value": 0.1
-        },
     "tooltip": [
-      { "field": "STATE", "type": "nominal", "title": "State/Territory" },
       { "field": "FireCategory", "type": "nominal", "title": "Fire Type" },
       {
         "field": "FireCount",
