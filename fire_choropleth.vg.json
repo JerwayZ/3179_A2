@@ -4,52 +4,73 @@
   "height": 450,
   "title": "Fire Incidents by Australian State/Territory (2016-2021)",
   "projection": { "type": "equirectangular" },
+  "params": [
+    {
+      "name": "yearFilter",
+      "value": null,
+      "bind": {
+        "input": "select",
+        "options": [null, 2017, 2018, 2019, 2020, 2021],
+        "labels": ["All Years", "2017", "2018", "2019", "2020", "2021"],
+        "name": "Select Year: "
+      }
+    }
+  ],
   "data": {
     "url": "data/Fire_For16-21_Attributes.csv"
   },
   "transform": [
     {
-      "filter": "datum.FOR_CATEGO == 'Native forest' && datum.STATE != '' && datum.STATE != null && (datum.FIRE_1617 == 'U' || datum.FIRE_1617 == 'P' || datum.FIRE_1718 == 'U' || datum.FIRE_1718 == 'P' || datum.FIRE_1819 == 'U' || datum.FIRE_1819 == 'P' || datum.FIRE_1920 == 'U' || datum.FIRE_1920 == 'P' || datum.FIRE_2021 == 'U' || datum.FIRE_2021 == 'P')"
+      "filter": "datum.FOR_CATEGO == 'Native forest' && datum.STATE != '' && datum.STATE != null"
     },
     {
-      "calculate": "datum.FIRE_1617 + datum.FIRE_1718 + datum.FIRE_1819 + datum.FIRE_1920 + datum.FIRE_2021",
-      "as": "AllFires"
+      "fold": [
+        "FIRE_1617",
+        "FIRE_1718",
+        "FIRE_1819", 
+        "FIRE_1920",
+        "FIRE_2021"
+      ],
+      "as": ["YearColumn", "FireStatus"]
     },
     {
-      "calculate": "split(datum.AllFires, 'U').length - 1",
-      "as": "UnplannedCount"
+      "calculate": "datum.YearColumn == 'FIRE_1617' ? 2017 : datum.YearColumn == 'FIRE_1718' ? 2018 : datum.YearColumn == 'FIRE_1819' ? 2019 : datum.YearColumn == 'FIRE_1920' ? 2020 : 2021",
+      "as": "Year"
     },
     {
-      "calculate": "split(datum.AllFires, 'P').length - 1",
-      "as": "PlannedCount"
+      "filter": "yearFilter == null || datum.Year == yearFilter"
+    },
+    {
+      "filter": "datum.FireStatus == 'U' || datum.FireStatus == 'P'"
+    },
+    {
+      "calculate": "datum.FireStatus == 'U' ? 1 : 0",
+      "as": "IsUnplanned"
+    },
+    {
+      "calculate": "datum.FireStatus == 'P' ? 1 : 0",
+      "as": "IsPlanned"
     },
     {
       "aggregate": [
-        { "op": "sum", "field": "UnplannedCount", "as": "UnplannedFires" },
-        { "op": "sum", "field": "PlannedCount", "as": "PlannedFires" }
+        { "op": "sum", "field": "IsUnplanned", "as": "UnplannedFires" },
+        { "op": "sum", "field": "IsPlanned", "as": "PlannedFires" },
+        { "op": "count", "as": "FireIncidents" }
       ],
       "groupby": ["STATE"]
     },
     {
-      "calculate": "datum.UnplannedFires + datum.PlannedFires",
-      "as": "FireIncidents"
+      "calculate": "datum.STATE == 'NSW' ? '1' : datum.STATE == 'Vic' ? '2' : datum.STATE == 'Qld' ? '3' : datum.STATE == 'SA' ? '4' : datum.STATE == 'WA' ? '5' : datum.STATE == 'Tas' ? '6' : datum.STATE == 'NT' ? '7' : datum.STATE == 'ACT' ? '8' : datum.STATE",
+      "as": "StateCode"
     },
     {
-      "lookup": "STATE",
-      "from": {
-        "data": {"name": "stateNames"},
-        "key": "code", 
-        "fields": ["name"]
-      }
-    },
-    {
-      "lookup": "name",
+      "lookup": "StateCode",
       "from": {
         "data": {
           "url": "STE_2021_AUST_GDA2020.topojson",
           "format": { "type": "topojson", "feature": "STE_2021_AUST_GDA2020" }
         },
-        "key": "properties.STE_NAME21"
+        "key": "properties.STE_CODE21"
       },
       "as": "geo"
     }
@@ -65,7 +86,7 @@
     },
     "tooltip": [
       {
-        "field": "StateName",
+        "field": "geo.properties.STE_NAME21",
         "type": "nominal",
         "title": "State/Territory"
       },
@@ -84,18 +105,6 @@
         "type": "quantitative",
         "title": "Planned Fires"
       }
-    ]
-  },
-  "datasets": {
-    "stateNames": [
-      {"code": "Qld", "name": "Queensland"},
-      {"code": "NSW", "name": "New South Wales"},
-      {"code": "Vic", "name": "Victoria"},
-      {"code": "Tas", "name": "Tasmania"},
-      {"code": "SA", "name": "South Australia"},
-      {"code": "WA", "name": "Western Australia"},
-      {"code": "NT", "name": "Northern Territory"},
-      {"code": "ACT", "name": "Australian Capital Territory"}
     ]
   }
 }
