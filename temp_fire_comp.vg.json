@@ -1,0 +1,154 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 400,
+  "title": {
+    "text": "Temperature Anomaly and Fire Incidents Comparison (Australia)",
+    "subtitle": "Temperature deviation from long-term average (°C) vs Fire Incidents (2017-2021)",
+    "fontSize": 16,
+    "subtitleFontSize": 12
+  },
+  "data": {
+    "url": "data/20210908_cli_001_graph-forplot.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum.Temperature != null && datum.Temperature != 'NaN'"
+    },
+    {
+        "filter": "datum.Year >= 2016"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "point": true,
+        "strokeWidth": 2,
+        "color": "#2c7fb8"
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "title": "Year"
+        },
+        "y": {
+          "field": "Temperature",
+          "type": "quantitative",
+          "title": "Temperature Anomaly (°C)"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.Temperature > 0",
+            "value": "#d62728"
+          },
+          "value": "#2ca02c"
+        },
+        "tooltip": [
+          {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year"
+          },
+          {
+            "field": "Temperature",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "Temperature Anomaly (°C)"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "rule",
+        "strokeDash": [3, 3],
+        "color": "black",
+        "opacity": 0.7
+      },
+      "encoding": {
+        "y": {
+          "datum": 0
+        }
+      }
+    }, 
+    {
+      "data": {
+        "url": "data/Fire_For16-21_Attributes.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.FOR_CATEGO == 'Native forest' && datum.STATE != '' && datum.STATE != null"
+        },
+        {
+          "fold": [
+            "FIRE_1617",
+            "FIRE_1718",
+            "FIRE_1819", 
+            "FIRE_1920",
+            "FIRE_2021"
+          ],
+          "as": ["YearColumn", "FireStatus"]
+        },
+        {
+          "filter": "datum.FireStatus == 'U'"
+        },
+        {
+          "calculate": "datum.YearColumn == 'FIRE_1617' ? '2017' : datum.YearColumn == 'FIRE_1718' ? '2018' : datum.YearColumn == 'FIRE_1819' ? '2019' : datum.YearColumn == 'FIRE_1920' ? '2020' : '2021'",
+          "as": "Year"
+        },
+        {
+          "aggregate": [
+            { "op": "count", "as": "FireIncidents" }
+          ],
+          "groupby": ["Year"]
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "point": true,
+        "strokeWidth": 3,
+        "color": "#ff7f0e",
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "FireIncidents",
+          "type": "quantitative",
+          "title": "Fire Incidents",
+          "scale": {
+            "domain": [0, 50000]
+          },
+          "axis": {
+            "titleColor": "#ff7f0e",
+            "orient": "right"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year"
+          },
+          {
+            "field": "FireIncidents",
+            "type": "quantitative",
+            "format": ",",
+            "title": "Fire Incidents"
+          }
+        ]
+      }
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "x": "shared",
+      "y": "independent"
+    }
+  }
+}
