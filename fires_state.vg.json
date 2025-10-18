@@ -62,14 +62,21 @@
     "y": {
       "field": "FireIncidents",
       "type": "quantitative",
-      "title": "Number of Fires"
+      "title": "Number of Fires",
+      "scale": {
+        "zero": true,
+        "nice": true
+      },
+      "axis": {
+        "grid": false
+      }
     },
     "color": {
       "field": "STATE",
       "type": "nominal",
       "title": "State/Territory",
       "scale": {
-        "scheme": "category20"
+        "range": ["#E69F00", "#56B4E9", "#009E73", "#F5C710", "#0072B2", "#D55E00", "#CC79A7", "#999999"]
       }
     },
     "opacity": {

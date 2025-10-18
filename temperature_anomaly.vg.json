@@ -20,18 +20,19 @@
     {
       "mark": {
         "type": "line",
-        "point": true,
-        "strokeWidth": 2,
-        "color": "#2c7fb8"
+        "strokeWidth": 2
       },
       "encoding": {
         "x": {
           "field": "Year",
-          "type": "temporal",
+          "type": "quantitative",
           "title": "Year",
-          "axis": {
-            "format": "%Y",
-            "tickCount": 10
+          "scale": {
+            "domain": [1910,2021]
+          },
+          "axis":{
+            "format": "d",
+            "grid": false
           }
         },
         "y": {
@@ -40,20 +41,18 @@
           "title": "Temperature Anomaly (°C)",
           "scale": {
             "domain": [-1.5, 1.5]
+          },
+          "axis": {
+            "grid": false
           }
         },
         "color": {
-          "condition": {
-            "test": "datum.Temperature > 0",
-            "value": "#d62728"
-          },
-          "value": "#2ca02c"
+          "value": "#CC79A7"
         },
         "tooltip": [
           {
             "field": "Year",
-            "type": "temporal",
-            "format": "%Y",
+            "type": "ordinal",
             "title": "Year"
           },
           {
@@ -87,13 +86,20 @@
       "mark": {
         "type": "line",
         "strokeWidth": 3,
-        "color": "#ff7f0e",
+        "color": "#56B4E9",
         "opacity": 0.8
       },
       "encoding": {
         "x": {
           "field": "Year",
-          "type": "temporal"
+          "type": "quantitative",
+          "title": "Year",
+          "scale": {
+            "domain": [1910,2021]
+          },
+          "axis":{
+            "format": "d"
+          }
         },
         "y": {
           "field": "11-year mean",
@@ -102,8 +108,7 @@
         "tooltip": [
           {
             "field": "Year",
-            "type": "temporal",
-            "format": "%Y",
+            "type": "ordinal",
             "title": "Year"
           },
           {

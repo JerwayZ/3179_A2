@@ -55,24 +55,30 @@
     "encoding": {
         "x": {
             "field": "YearNum",
-            "type": "ordinal",
+            "type": "quantitative",
             "title": "Fire Season",
             "axis": {
-                "labelExpr": "datum.value == 2017 ? '2016-17' : datum.value == 2018 ? '2017-18' : datum.value == 2019 ? '2018-19' : datum.value == 2020 ? '2019-20' : '2020-21'"
+                "values": [2017, 2018, 2019, 2020, 2021],
+                "labelExpr": "datum.value == 2017 ? '2016-17' : datum.value == 2018 ? '2017-18' : datum.value == 2019 ? '2018-19' : datum.value == 2020 ? '2019-20' : '2020-21'",
+                "labelAngle": 0,
+                "grid": false
             }
         },
         "y": {
             "field": "TotalArea",
             "type": "quantitative",
             "title": "Cumulative area affected [Hectare]",
-            "stack": true
+            "stack": true,
+            "axis":{
+                "grid": false
+            }
         },
         "color": {
             "field": "STATE",
             "type": "nominal",
             "title": "State/Territory",
             "scale": {
-                "scheme": "category20"
+                "range": ["#E69F00", "#56B4E9", "#009E73", "#F5C710", "#0072B2", "#D55E00", "#CC79A7", "#999999"]
             }
         },
         "opacity": {
@@ -87,11 +93,5 @@
             {"field": "YearLabel", "type": "nominal", "title": "Fire Season"},
             {"field": "TotalArea", "type": "quantitative", "title": "Area Affected", "format": ",.0f"}
         ]
-    },
-    "config": {
-        "area": {
-            "stroke": "white",
-            "strokeWidth": 1
-        }
     }
 }

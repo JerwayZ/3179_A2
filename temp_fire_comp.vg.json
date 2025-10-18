@@ -16,7 +16,7 @@
       "filter": "datum.Temperature != null && datum.Temperature != 'NaN'"
     },
     {
-        "filter": "datum.Year >= 2016"
+        "filter": "datum.Year > 2016"
     }
   ],
   "layer": [
@@ -24,26 +24,27 @@
       "mark": {
         "type": "line",
         "point": true,
-        "strokeWidth": 2,
-        "color": "#2c7fb8"
+        "strokeWidth": 3
       },
       "encoding": {
         "x": {
           "field": "Year",
           "type": "ordinal",
-          "title": "Year"
+          "title": "Year",
+          "axis": {
+            "labelAngle": 0
+          }
         },
         "y": {
           "field": "Temperature",
           "type": "quantitative",
-          "title": "Temperature Anomaly (°C)"
+          "title": "Temperature Anomaly (°C)",
+          "scale": {
+            "domain": [0,2]
+          }
         },
         "color": {
-          "condition": {
-            "test": "datum.Temperature > 0",
-            "value": "#d62728"
-          },
-          "value": "#2ca02c"
+          "value": "#CC79A7"
         },
         "tooltip": [
           {
@@ -60,19 +61,6 @@
         ]
       }
     },
-    {
-      "mark": {
-        "type": "rule",
-        "strokeDash": [3, 3],
-        "color": "black",
-        "opacity": 0.7
-      },
-      "encoding": {
-        "y": {
-          "datum": 0
-        }
-      }
-    }, 
     {
       "data": {
         "url": "data/Fire_For16-21_Attributes.csv"
@@ -109,25 +97,29 @@
         "type": "line",
         "point": true,
         "strokeWidth": 3,
-        "color": "#ff7f0e",
         "interpolate": "monotone"
       },
       "encoding": {
         "x": {
           "field": "Year",
-          "type": "ordinal"
+          "type": "ordinal",
+          "axis": {
+            "labelAngle": 0
+          }
         },
         "y": {
           "field": "FireIncidents",
           "type": "quantitative",
           "title": "Fire Incidents",
           "scale": {
-            "domain": [0, 50000]
+            "domain": [0, 15000]
           },
           "axis": {
-            "titleColor": "#ff7f0e",
             "orient": "right"
           }
+        },
+        "color": {
+          "value": "#0072B2"
         },
         "tooltip": [
           {
