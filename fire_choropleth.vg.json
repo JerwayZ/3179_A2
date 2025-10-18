@@ -3,89 +3,99 @@
   "width": 800,
   "height": 450,
   "title": "Fire Incidents by Australian State/Territory (2016-2021)",
-  "projection": { "type": "equalEarth" },
-  "layer": [
+  "projection": { "type": "equirectangular" },
+  "data": {
+    "url": "data/Fire_For16-21_Attributes.csv"
+  },
+  "transform": [
     {
-      "data": {
-        "url": "STE_2021_AUST_GDA2020.topojson",
-        "format": { "type": "topojson", "feature": "STE_2021_AUST_GDA2020" }
-      },
-      "mark": { "type": "geoshape", "fill": "lightgray", "stroke": "white" }
+      "filter": "datum.FOR_CATEGO == 'Native forest' && datum.STATE != '' && datum.STATE != null && (datum.FIRE_1617 == 'U' || datum.FIRE_1617 == 'P' || datum.FIRE_1718 == 'U' || datum.FIRE_1718 == 'P' || datum.FIRE_1819 == 'U' || datum.FIRE_1819 == 'P' || datum.FIRE_1920 == 'U' || datum.FIRE_1920 == 'P' || datum.FIRE_2021 == 'U' || datum.FIRE_2021 == 'P')"
     },
     {
-      "data": {
-        "url": "data/Fire_For16-21_Attributes.csv"
-      },
-      "transform": [
-        {
-          "filter": "datum.STATE != '' &&  datum.STATE != null"
-        },
-        {
-          "filter": "datum.FOR_CATEGO == 'Native forest'"
-        },
-        {
-          "fold": [
-            "FIRE_1617",
-            "FIRE_1718",
-            "FIRE_1819",
-            "FIRE_1920",
-            "FIRE_2021"
-          ],
-          "as": ["Year", "FireCount"]
-        },
-        {
-          "calculate": "datum.Year == 'FIRE_1617' ? '2016-17' : datum.Year == 'FIRE_1718' ? '2017-18' : datum.Year == 'FIRE_1819' ? '2018-19' : datum.Year == 'FIRE_1920' ? '2019-20' : '2020-21'",
-          "as": "YearLabel"
-        },
-        {
-          "calculate": "datum.Year == 'FIRE_1617' ? 2017 : datum.Year == 'FIRE_1718' ? 2018 : datum.Year == 'FIRE_1819' ? 2019 : datum.Year == 'FIRE_1920' ? 2020 : 2021",
-          "as": "YearNum"
-        },
-        {
-          "calculate": "datum.FireCount == 'U' || datum.FireCount == 'P' ? 1 : 0",
-          "as": "HasFire"
-        },
-        {
-          "filter": "datum.HasFire == 1"
-        },
-        {
-          "aggregate": [
-            { "op": "sum", "field": "HasFire", "as": "FireIncidents" }
-          ],
-          "groupby": ["STATE"]
-        }
+      "calculate": "datum.FIRE_1617 + datum.FIRE_1718 + datum.FIRE_1819 + datum.FIRE_1920 + datum.FIRE_2021",
+      "as": "AllFires"
+    },
+    {
+      "calculate": "split(datum.AllFires, 'U').length - 1",
+      "as": "UnplannedCount"
+    },
+    {
+      "calculate": "split(datum.AllFires, 'P').length - 1",
+      "as": "PlannedCount"
+    },
+    {
+      "aggregate": [
+        { "op": "sum", "field": "UnplannedCount", "as": "UnplannedFires" },
+        { "op": "sum", "field": "PlannedCount", "as": "PlannedFires" }
       ],
-      "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 0.5 },
-      "encoding": {
-        "color": {
-          "field": "total_fires",
-          "type": "quantitative",
-          "title": "Total Fire Incidents",
-          "scale": { "scheme": "orangered" }
-        },
-        "tooltip": [
-          {
-            "field": "properties.STE_NAME21",
-            "type": "nominal",
-            "title": "State/Territory"
-          },
-          {
-            "field": "total_fires",
-            "type": "quantitative",
-            "title": "Total Fire Incidents"
-          },
-          {
-            "field": "unplanned_fires",
-            "type": "quantitative",
-            "title": "Unplanned Fires"
-          },
-          {
-            "field": "planned_fires",
-            "type": "quantitative",
-            "title": "Planned Fires"
-          }
-        ]
+      "groupby": ["STATE"]
+    },
+    {
+      "calculate": "datum.UnplannedFires + datum.PlannedFires",
+      "as": "FireIncidents"
+    },
+    {
+      "lookup": "STATE",
+      "from": {
+        "data": {"name": "stateNames"},
+        "key": "code", 
+        "fields": ["name"]
       }
+    },
+    {
+      "lookup": "name",
+      "from": {
+        "data": {
+          "url": "STE_2021_AUST_GDA2020.topojson",
+          "format": { "type": "topojson", "feature": "STE_2021_AUST_GDA2020" }
+        },
+        "key": "properties.STE_NAME21"
+      },
+      "as": "geo"
     }
-  ]
+  ],
+  "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 0.5 },
+  "encoding": {
+    "shape": { "field": "geo", "type": "geojson" },
+    "color": {
+      "field": "FireIncidents",
+      "type": "quantitative",
+      "title": "Total Fire Incidents",
+      "scale": { "scheme": "orangered" }
+    },
+    "tooltip": [
+      {
+        "field": "StateName",
+        "type": "nominal",
+        "title": "State/Territory"
+      },
+      {
+        "field": "FireIncidents",
+        "type": "quantitative",
+        "title": "Total Fire Incidents"
+      },
+      {
+        "field": "UnplannedFires",
+        "type": "quantitative",
+        "title": "Unplanned Fires"
+      },
+      {
+        "field": "PlannedFires",
+        "type": "quantitative",
+        "title": "Planned Fires"
+      }
+    ]
+  },
+  "datasets": {
+    "stateNames": [
+      {"code": "Qld", "name": "Queensland"},
+      {"code": "NSW", "name": "New South Wales"},
+      {"code": "Vic", "name": "Victoria"},
+      {"code": "Tas", "name": "Tasmania"},
+      {"code": "SA", "name": "South Australia"},
+      {"code": "WA", "name": "Western Australia"},
+      {"code": "NT", "name": "Northern Territory"},
+      {"code": "ACT", "name": "Australian Capital Territory"}
+    ]
+  }
 }

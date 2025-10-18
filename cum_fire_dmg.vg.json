@@ -43,12 +43,8 @@
             "filter": "datum.HasFire == 1"
         },
         {
-            "calculate": "datum.COUNT/10000",
-            "as": "AreaHectare"
-        },
-        {
             "aggregate": [
-                {"op": "sum", "field": "AreaHectare", "as": "TotalArea"}
+                {"op": "sum", "field": "COUNT", "as": "TotalArea"}
             ],
             "groupby": ["STATE", "YearLabel", "YearNum"]
         }
