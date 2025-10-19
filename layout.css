@@ -1,0 +1,102 @@
+.vis-container-1 {
+    display: grid;
+    width: 1920px;
+    margin: auto;
+    margin-bottom: 10px;
+    justify-content: center;
+	row-gap: 20px;
+	
+}
+
+.vis-container-2 {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+    width: 1920px;
+	margin: auto;
+	margin-top: 10px;
+	column-gap: 20px;
+	row-gap: 10px;
+	place-items: center;
+	justify-self: left;
+}
+
+.vis-container-2-small {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin: 0px;
+	column-gap: 20px;
+	justify-self: left;
+	align-self: start;
+	place-items: center;
+		  /* border: 3px solid green;  */
+
+}
+
+.vis-item-1 {
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	padding: 20px;
+	margin-bottom: 10px;
+    width: 1536px;
+	place-items: center;
+	
+}
+.vis-item-2-left{
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	padding: 20px;
+	margin-bottom: 10px;
+	align-self: start;
+	justify-self: right;
+    width: 738px;
+	height: 900px;
+	place-items: center;
+	grid-row: 1 / 4;
+}
+.vis-item-2-right{
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	padding: 20px;
+	margin-bottom: 10px;
+	justify-self: left;
+	align-self: start;
+	width: 738px;
+	height: 420px;
+	place-content: center;
+}
+.vis-item-2-right-small{
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	padding: 20px;
+	justify-self: left;
+	align-self: start;
+    width: 339px;
+	height: 420px;
+	place-content: center;
+}
+.vis-item-2-text{
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	padding: 20px;
+	justify-self: left;
+	align-self: start;
+	text-align: left;
+    width: 339px;
+	height: 420px;
+}
+
+#cum_fire_dmg, #fires_state, #fire_choropleth, 
+#planned_fires, #temperature_anomaly, #temp_fire_comp {
+	width: auto;
+	height: auto;
+	/* min-height: 500px; */
+    margin: 0;
+    display: block;
+
+}

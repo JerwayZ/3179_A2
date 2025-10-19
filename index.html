@@ -1,68 +1,97 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
-  
-  
-  <!-- CSS file -->
-  <link rel="stylesheet" type="text/css" href="styles.css" media="all">
-  
-</head>
-<body>
-  
-<div id="cum_fire_dmg"></div>
-<div id="fires_state"></div>
-<div id="fire_choropleth"></div>
-<div id="planned_fires"></div>
-<div id="temperature_anomaly"></div>
-<div id="temp_fire_comp"></div>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
 
-<script type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="style.css" media="all" />
+    <link rel="stylesheet" href="layout.css" />
+  </head>
+  <body>
+    <h1>How Temperature Change Affects Austrlian Foret Fires</h1>
+    <div class="vis-container-1">
+      <div>
+        <p></p>
+      </div>
+      <div class="vis-item-1">
+        <div id="fire_choropleth"></div>
+      </div>
+      <div class="vis-item-1">
+        <div class="vis-item-1">
+          <p>From the </p>
+        </div>
+        <div id="cum_fire_dmg"></div>
+      </div>
+      <div class="vis-item-1">
+        <div id="temperature_anomaly"></div>
+      </div>
+    </div>
+    <div class="vis-container-2">
+      <div class="vis-item-2-left">
+        <div id="fires_state"></div>
+      </div>
+      <div class="vis-container-2-small">
+        <div class="vis-item-2-text">
+          <p>Whist we tend to associate forest fires as a natural disaster from the pie chart we are able to see that in the majority of the states actually conduct planned fires. Generalyl however we are also able to see that only about 50% of forest fires in all Australian states from 2016-2021 are unplanned natural disasters. </p>
+          <p>From the limited overlapping time of Australian temperature anomoly data and teh forest fires data we see that there is limited correelation. There seems to be a lagged trend where incidents of fires occur more frequently the year after a much warmer year. Since how forest fires start is more than just the climate we can't draw any conclusions however from this comparison, but it does give us an understanding of how temperature is able to affect the rates of which forest fires occur.</p>
+        </div>
+        <div class="vis-item-2-right-small">
+          <div id="planned_fires"></div>
+        </div>
+      </div>
+      <div class="vis-item-2-right">
+        <div id="temp_fire_comp"></div>
+      </div>
+    </div>
 
-  var cum_fire_dmg = "cum_fire_dmg.vg.json";
-  vegaEmbed('#cum_fire_dmg', cum_fire_dmg).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
-</script>
-<script type="text/javascript">
-
-  var fires_state = "fires_state.vg.json";
-  vegaEmbed('#fires_state', fires_state).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
-</script>
-<script type="text/javascript">
-
-  var fire_choropleth = "fire_choropleth.vg.json";
-  vegaEmbed('#fire_choropleth', fire_choropleth).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
-</script>
-<script type="text/javascript">
-
-  var planned_fires = "planned_fires.vg.json";
-  vegaEmbed('#planned_fires', planned_fires).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
-</script>
-<script type="text/javascript">
-
-  var temperature_anomaly = "temperature_anomaly.vg.json";
-  vegaEmbed('#temperature_anomaly', temperature_anomaly).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
-</script>
-<script type="text/javascript">
-
-  var temp_fire_comp = "temp_fire_comp.vg.json";
-  vegaEmbed('#temp_fire_comp', temp_fire_comp).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
-</script>
-
-
-</body>
+    <script type="text/javascript">
+      var cum_fire_dmg = "cum_fire_dmg.vg.json";
+      vegaEmbed("#cum_fire_dmg", cum_fire_dmg)
+        .then(function (result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        })
+        .catch(console.error);
+    </script>
+    <script type="text/javascript">
+      var fires_state = "fires_state.vg.json";
+      vegaEmbed("#fires_state", fires_state)
+        .then(function (result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        })
+        .catch(console.error);
+    </script>
+    <script type="text/javascript">
+      var fire_choropleth = "fire_choropleth.vg.json";
+      vegaEmbed("#fire_choropleth", fire_choropleth)
+        .then(function (result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        })
+        .catch(console.error);
+    </script>
+    <script type="text/javascript">
+      var planned_fires = "planned_fires.vg.json";
+      vegaEmbed("#planned_fires", planned_fires)
+        .then(function (result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        })
+        .catch(console.error);
+    </script>
+    <script type="text/javascript">
+      var temperature_anomaly = "temperature_anomaly.vg.json";
+      vegaEmbed("#temperature_anomaly", temperature_anomaly)
+        .then(function (result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        })
+        .catch(console.error);
+    </script>
+    <script type="text/javascript">
+      var temp_fire_comp = "temp_fire_comp.vg.json";
+      vegaEmbed("#temp_fire_comp", temp_fire_comp)
+        .then(function (result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        })
+        .catch(console.error);
+    </script>
+  </body>
 </html>

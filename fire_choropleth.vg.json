@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 800,
+  "width": 900,
   "height": 600,
   "title": "Fire Incidents by Australian State/Territory (2016-2021)",
   "projection": { "type": "equirectangular" },
@@ -82,7 +82,15 @@
       "field": "FireIncidents",
       "type": "quantitative",
       "title": "Total Fire Incidents",
-      "scale": { "scheme": "goldorange" }
+      "scale": { "scheme": "goldorange" },
+      "legend": {
+        "orient": "top-left",
+        "offset": 20,
+        "padding": 10,
+        "cornerRadius": 5,
+        "fillColor": "white",
+        "strokeColor": "#ccc"
+      }
     },
     "tooltip": [
       {

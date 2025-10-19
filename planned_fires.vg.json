@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 600,
-  "height": 400,
   "title": "Planned vs Unplanned Fire Incidents Distribution",
+  "height": 300,
+  "width": 300,
   "data": {
     "url": "data/Fire_For16-21_Attributes.csv"
   },
@@ -54,6 +54,13 @@
     {
       "aggregate": [{ "op": "count", "as": "FireCount" }],
       "groupby": ["FireCategory"]
+    },
+    {
+      "joinaggregate": [{ "op": "sum", "field": "FireCount", "as": "TotalFires" }]
+    },
+    {
+      "calculate": "datum.FireCount / datum.TotalFires * 100",
+      "as": "Percentage"
     }
   ],
   "mark": {
@@ -74,6 +81,14 @@
       "scale": {
         "domain": ["Planned", "Unplanned"],
         "range": ["#0072B2", "#E69F00"]
+      },
+      "legend": {
+        "orient": "top-left",
+        "offset": 20,
+        "padding": 10,
+        "cornerRadius": 5,
+        "fillColor": "white",
+        "strokeColor": "#ccc"
       }
     },
     "tooltip": [
@@ -83,6 +98,12 @@
         "type": "quantitative",
         "title": "Number of Incidents",
         "format": ","
+      },
+      {
+        "field": "Percentage",
+        "type": "quantitative",
+        "title": "Percentage of Total",
+        "format": ".1f"
       }
     ]
   }
