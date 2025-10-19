@@ -28,10 +28,6 @@
             "as": ["Year", "FireCount"]
         },
         {
-            "calculate": "datum.Year == 'FIRE_1617' ? '2016-17' : datum.Year == 'FIRE_1718' ? '2017-18' : datum.Year == 'FIRE_1819' ? '2018-19' : datum.Year == 'FIRE_1920' ? '2019-20' : '2020-21'",
-            "as": "YearLabel"
-        },
-        {
             "calculate": "datum.Year == 'FIRE_1617' ? 2017 : datum.Year == 'FIRE_1718' ? 2018 : datum.Year == 'FIRE_1819' ? 2019 : datum.Year == 'FIRE_1920' ? 2020 : 2021",
             "as": "YearNum"
         },
@@ -56,10 +52,10 @@
         "x": {
             "field": "YearNum",
             "type": "quantitative",
-            "title": "Fire Season",
+            "title": "Year",
             "axis": {
                 "values": [2017, 2018, 2019, 2020, 2021],
-                "labelExpr": "datum.value == 2017 ? '2016-17' : datum.value == 2018 ? '2017-18' : datum.value == 2019 ? '2018-19' : datum.value == 2020 ? '2019-20' : '2020-21'",
+                "labelExpr": "datum.value == 2017 ? '2017' : datum.value == 2018 ? '2018' : datum.value == 2019 ? '2019' : datum.value == 2020 ? '2020' : '2021'",
                 "labelAngle": 0,
                 "grid": false
             }
@@ -79,6 +75,11 @@
             "title": "State/Territory",
             "scale": {
                 "range": ["#E69F00", "#56B4E9", "#009E73", "#F5C710", "#0072B2", "#D55E00", "#CC79A7", "#999999"]
+            },
+            "legend": {
+                "orient": "top-left",
+                "offset": 10,
+                "padding": 10
             }
         },
         "opacity": {
@@ -90,7 +91,7 @@
         },
         "tooltip": [
             {"field": "STATE", "type": "nominal", "title": "State"},
-            {"field": "YearLabel", "type": "nominal", "title": "Fire Season"},
+            {"field": "YearNum", "type": "nominal", "title": "Year"},
             {"field": "TotalArea", "type": "quantitative", "title": "Area Affected", "format": ",.0f"}
         ]
     }

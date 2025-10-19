@@ -86,10 +86,7 @@
       "legend": {
         "orient": "top-left",
         "offset": 20,
-        "padding": 10,
-        "cornerRadius": 5,
-        "fillColor": "white",
-        "strokeColor": "#ccc"
+        "padding": 10
       }
     },
     "tooltip": [

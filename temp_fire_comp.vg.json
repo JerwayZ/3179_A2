@@ -21,6 +21,12 @@
   ],
   "layer": [
     {
+      "transform": [
+        {
+          "calculate": "'Temperature Anomaly'",
+          "as": "category"
+        }
+      ],
       "mark": {
         "type": "line",
         "point": true,
@@ -44,7 +50,18 @@
           }
         },
         "color": {
-          "value": "#CC79A7"
+          "field": "category",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Temperature Anomaly", "Fire Incidents"],
+            "range": ["#CC79A7", "#0072B2"]
+          },
+          "legend": {
+            "orient": "top-left",
+            "offset": 10,
+            "padding": 10,
+            "title": "Data Type"
+          }
         },
         "tooltip": [
           {
@@ -91,6 +108,10 @@
             { "op": "count", "as": "FireIncidents" }
           ],
           "groupby": ["Year"]
+        },
+        {
+          "calculate": "'Fire Incidents'",
+          "as": "category"
         }
       ],
       "mark": {
@@ -119,7 +140,12 @@
           }
         },
         "color": {
-          "value": "#0072B2"
+          "field": "category",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Temperature Anomaly", "Fire Incidents"],
+            "range": ["#CC79A7", "#0072B2"]
+          }
         },
         "tooltip": [
           {

@@ -83,8 +83,8 @@
         "range": ["#0072B2", "#E69F00"]
       },
       "legend": {
-        "orient": "top-left",
-        "offset": 20,
+        "orient": "bottom",
+        "offset": 10,
         "padding": 10,
         "cornerRadius": 5,
         "fillColor": "white",

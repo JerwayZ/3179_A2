@@ -28,10 +28,6 @@
       "as": ["Year", "FireCount"]
     },
     {
-      "calculate": "datum.Year == 'FIRE_1617' ? '2016-17' : datum.Year == 'FIRE_1718' ? '2017-18' : datum.Year == 'FIRE_1819' ? '2018-19' : datum.Year == 'FIRE_1920' ? '2019-20' : '2020-21'",
-      "as": "YearLabel"
-    },
-    {
       "calculate": "datum.Year == 'FIRE_1617' ? 2017 : datum.Year == 'FIRE_1718' ? 2018 : datum.Year == 'FIRE_1819' ? 2019 : datum.Year == 'FIRE_1920' ? 2020 : 2021",
       "as": "YearNum"
     },
@@ -52,12 +48,12 @@
   },
   "encoding": {
     "x": {
-      "field": "YearLabel",
+      "field": "YearNum",
       "type": "nominal",
-      "title": "Fire Season"
-    },
-    "xOffset": { 
-        "field": "STATE"
+      "title": "Year",
+      "axis": {
+        "labelAngle": 0
+      }
     },
     "y": {
       "field": "FireIncidents",
@@ -88,7 +84,7 @@
     },
     "tooltip": [
       { "field": "STATE", "type": "nominal", "title": "State" },
-      { "field": "YearLabel", "type": "nominal", "title": "Fire Season" },
+      { "field": "YearNum", "type": "nominal", "title": "Year" },
       {
         "field": "FireIncidents",
         "type": "quantitative",

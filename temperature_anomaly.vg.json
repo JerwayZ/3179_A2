@@ -18,6 +18,12 @@
   ],
   "layer": [
     {
+      "transform": [
+        {
+          "calculate": "'Annual Temperature'",
+          "as": "category"
+        }
+      ],
       "mark": {
         "type": "line",
         "strokeWidth": 2
@@ -47,7 +53,18 @@
           }
         },
         "color": {
-          "value": "#CC79A7"
+          "field": "category",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Annual Temperature", "11-year Moving Average"],
+            "range": ["#CC79A7", "#56B4E9"]
+          },
+          "legend": {
+            "orient": "top-left",
+            "offset": 10,
+            "padding": 10,
+            "title": "Temperature Data"
+          }
         },
         "tooltip": [
           {
@@ -81,12 +98,15 @@
       "transform": [
         {
           "filter": "datum['11-year mean'] != null && datum['11-year mean'] != 'NaN'"
+        },
+        {
+          "calculate": "'11-year Moving Average'",
+          "as": "category"
         }
       ],
       "mark": {
         "type": "line",
         "strokeWidth": 3,
-        "color": "#56B4E9",
         "opacity": 0.8
       },
       "encoding": {
@@ -104,6 +124,14 @@
         "y": {
           "field": "11-year mean",
           "type": "quantitative"
+        },
+        "color": {
+          "field": "category",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Annual Temperature", "11-year Moving Average"],
+            "range": ["#CC79A7", "#56B4E9"]
+          }
         },
         "tooltip": [
           {

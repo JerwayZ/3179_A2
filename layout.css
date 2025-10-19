@@ -1,18 +1,18 @@
 .vis-container-1 {
     display: grid;
-    width: 1920px;
+    width: 1800px;
     margin: auto;
     margin-bottom: 10px;
     justify-content: center;
 	row-gap: 20px;
-	
+			  /* border: 3px solid green;  */
 }
 
 .vis-container-2 {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr 1fr;
-    width: 1920px;
+    width: 1800px;
 	margin: auto;
 	margin-top: 10px;
 	column-gap: 20px;
@@ -40,9 +40,16 @@
 	padding: 20px;
 	margin-bottom: 10px;
     width: 1536px;
+	text-align: left;
 	place-items: center;
-	
 }
+
+.vis-item-1 p{
+	margin-left: 300px;
+	margin-right: 350px;
+	text-align: left;
+}
+
 .vis-item-2-left{
 	background: #fff;
 	border-radius: 8px;
