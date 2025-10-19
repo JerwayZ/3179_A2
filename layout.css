@@ -1,6 +1,6 @@
 .vis-container-1 {
     display: grid;
-    width: 1800px;
+    width: 100%;
     margin: auto;
     margin-bottom: 10px;
     justify-content: center;
@@ -12,7 +12,7 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr 1fr;
-    width: 1800px;
+    width: 100%;
 	margin: auto;
 	margin-top: 10px;
 	column-gap: 20px;
